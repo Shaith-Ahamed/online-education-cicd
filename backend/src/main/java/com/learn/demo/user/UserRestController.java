@@ -37,18 +37,18 @@ public class UserRestController {
     @PostMapping("/addUser")
     public ResponseEntity<String> addUser(@RequestBody User newUser) {
 
-        if (newUser.getFirstName() == null || newUser.getFirstName().trim().isEmpty()) {
-            return ResponseEntity.badRequest().body("First name is required");
-        }
-        if (newUser.getLastName() == null || newUser.getLastName().trim().isEmpty()) {
-            return ResponseEntity.badRequest().body("Last name is required");
-        }
-        if (newUser.getPassword() == null || newUser.getPassword().trim().isEmpty()) {
-            return ResponseEntity.badRequest().body("Password is required");
-        }
-        if (newUser.getEmail() == null || newUser.getEmail().trim().isEmpty()) {
-            return ResponseEntity.badRequest().body("Email is required");
-        }
+//        if (newUser.getFirstName() == null || newUser.getFirstName().trim().isEmpty()) {
+//            return ResponseEntity.badRequest().body("First name is required");
+//        }
+//        if (newUser.getLastName() == null || newUser.getLastName().trim().isEmpty()) {
+//            return ResponseEntity.badRequest().body("Last name is required");
+//        }
+//        if (newUser.getPassword() == null || newUser.getPassword().trim().isEmpty()) {
+//            return ResponseEntity.badRequest().body("Password is required");
+//        }
+//        if (newUser.getEmail() == null || newUser.getEmail().trim().isEmpty()) {
+//            return ResponseEntity.badRequest().body("Email is required");
+//        }
 
         userRepository.save(newUser);
         return new ResponseEntity<>("User " + newUser.getFirstName() + " " + newUser.getLastName() + " " + newUser.getPassword() + "is added", HttpStatusCode.valueOf(201));
