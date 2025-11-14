@@ -40,7 +40,7 @@ WORKDIR /app
 RUN apk update && apk add --no-cache bash netcat-openbsd
 
 # Copy the local Maven repository with all dependencies
-COPY .m2/repository /root/.m2/repository
+# COPY .m2/repository /root/.m2/repository
 
 # Copy initial files
 COPY mvnw pom.xml ./
