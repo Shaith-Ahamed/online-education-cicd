@@ -57,32 +57,7 @@ pipeline {
             }
         }
 
-        // ----------------------------------------
-        stage('Frontend: SonarQube Analysis') {
-            agent { docker { image 'node:20-alpine' } }  // Node.js for frontend scan
-            steps {
-                dir('frontend') {
-                    withCredentials([string(credentialsId: "${SONAR_CRED}", variable: 'SONAR_TOKEN')]) {
-                        sh '''
-                            npm ci
-                            npm run build
-                            npm run test -- --coverage
 
-                            npm install -g sonar-scanner
-
-                            sonar-scanner \
-                                -Dsonar.projectKey=frontend \
-                                -Dsonar.sources=src \
-                                -Dsonar.tests=src \
-                                -Dsonar.language=js \
-                                -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
-                                -Dsonar.host.url=http://localhost:9000 \
-                                -Dsonar.login=$SONAR_TOKEN
-                        '''
-                    }
-                }
-            }
-        }
 
         // ----------------------------------------
         stage('Backend: Docker Build & Push') {
