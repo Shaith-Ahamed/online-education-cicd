@@ -34,84 +34,32 @@
 
 
 
-
-
-# FROM eclipse-temurin:17-jdk-alpine
-
-# WORKDIR /app
-
-# RUN apk update && apk add --no-cache bash netcat-openbsd
-
-# # Copy initial files and make mvnw executable for dependency download
-# COPY mvnw pom.xml ./
-# COPY .mvn .mvn
-# RUN chmod +x mvnw
-
-# COPY wait-for-it.sh ./
-# RUN chmod +x wait-for-it.sh
-
-# # Download dependencies offline
-# RUN ./mvnw dependency:go-offline -B
-
-# # Copy all backend code (this may overwrite mvnw)
-# COPY . .
-
-# # Fix permissions again for mvnw
-# RUN chmod +x mvnw
-
-# # Build the app
-# RUN ./mvnw clean package -DskipTests
-
-# EXPOSE 8080
-
-# CMD ["./wait-for-it.sh", "db:3306", "--", "sh", "-c", "java -jar target/*.jar"]
-
-
-
-
-
-
-
-
-
-
-# Use JDK 17
 FROM eclipse-temurin:17-jdk-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Install bash, netcat, and CA certificates for HTTPS
-RUN apk update && apk add --no-cache bash netcat-openbsd ca-certificates
+RUN apk update && apk add --no-cache bash netcat-openbsd
 
-# Copy Maven wrapper and pom.xml first
+# Copy initial files and make mvnw executable for dependency download
 COPY mvnw pom.xml ./
 COPY .mvn .mvn
-
-# Make Maven wrapper executable
 RUN chmod +x mvnw
 
-# Copy wait-for-it.sh and make it executable
 COPY wait-for-it.sh ./
 RUN chmod +x wait-for-it.sh
-
-# Optional: Copy pre-downloaded Maven cache if available
-# COPY .m2 /root/.m2
 
 # Download dependencies offline
 RUN ./mvnw dependency:go-offline -B
 
-# Copy all backend source code
+# Copy all backend code (this may overwrite mvnw)
 COPY . .
 
-# Fix permissions again after full copy
-RUN chmod +x mvnw wait-for-it.sh
+# Fix permissions again for mvnw
+RUN chmod +x mvnw
 
-# Build the Spring Boot application (skip tests for faster build)
-RUN ./mvnw clean package -DskipTests -B -Dmaven.wagon.http.retryHandler.count=5
+# Build the app
+RUN ./mvnw clean package -DskipTests
 
-# Expose backend port
 EXPOSE 8080
 
-# Start the application once DB is ready
 CMD ["./wait-for-it.sh", "db:3306", "--", "sh", "-c", "java -jar target/*.jar"]
