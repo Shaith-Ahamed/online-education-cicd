@@ -53,24 +53,24 @@ pipeline {
             }
         }
         
-        // stage('Backend: Docker Build & Push') {
-        //     steps {
-        //         dir('backend') {  
-        //             script {
-        //                 withDockerRegistry(credentialsId: "${DOCKERHUB_CRED}", url: '') {
-        //                     def buildTag = "${BACKEND_IMAGE}:${BUILD_NUMBER}"
-        //                     def latestTag = "${BACKEND_IMAGE}:latest"
-        //                     sh "docker build -t ${BACKEND_IMAGE} -f Dockerfile ."
-        //                     sh "docker tag ${BACKEND_IMAGE} ${buildTag}"
-        //                     sh "docker tag ${BACKEND_IMAGE} ${latestTag}"
-        //                     sh "docker push ${buildTag}"
-        //                     sh "docker push ${latestTag}"
-        //                     env.BACKEND_BUILD_TAG = buildTag
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Backend: Docker Build & Push') {
+            steps {
+                dir('backend') {  
+                    script {
+                        withDockerRegistry(credentialsId: "${DOCKERHUB_CRED}", url: '') {
+                            def buildTag = "${BACKEND_IMAGE}:${BUILD_NUMBER}"
+                            def latestTag = "${BACKEND_IMAGE}:latest"
+                            sh "docker build -t ${BACKEND_IMAGE} -f Dockerfile ."
+                            sh "docker tag ${BACKEND_IMAGE} ${buildTag}"
+                            sh "docker tag ${BACKEND_IMAGE} ${latestTag}"
+                            sh "docker push ${buildTag}"
+                            sh "docker push ${latestTag}"
+                            env.BACKEND_BUILD_TAG = buildTag
+                        }
+                    }
+                }
+            }
+        }
         
         stage('Frontend: Docker Build & Push') {
             steps {
@@ -93,7 +93,7 @@ pipeline {
         
         stage('Staging Deployment') {
             steps {
-                // docker-compose.yml is in root directory
+             
                 sh 'docker compose down || true'
                 sh 'docker compose pull'
                 sh 'docker compose up -d'
