@@ -12,7 +12,7 @@ pipeline {
         FRONTEND_IMAGE = 'shaith/online-education-frontend'
     }
     stages {
-        // ----------------------------------------
+        
         stage('Code Checkout') {
             steps {
                 git branch: 'main',
@@ -23,7 +23,7 @@ pipeline {
             }
         }
 
-        // ----------------------------------------
+        
         stage('Backend: Clean & Compile') {
             steps {
                 dir('backend') {  
@@ -32,7 +32,7 @@ pipeline {
             }
         }
 
-        // ----------------------------------------
+     
         stage('Backend: SonarQube Analysis') {
             steps {
                 dir('backend') { 
@@ -48,7 +48,7 @@ pipeline {
             }
         }
 
-        // ----------------------------------------
+      
         stage('Backend: Package') {
             steps {
                 dir('backend') {  
@@ -59,7 +59,7 @@ pipeline {
 
 
 
-        // ----------------------------------------
+     
         stage('Backend: Docker Build & Push') {
             steps {
                 dir('backend') {  
@@ -79,9 +79,9 @@ pipeline {
             }
         }
 
-        // ----------------------------------------
+        
         stage('Frontend: Docker Build & Push') {
-            steps {
+            steps { 
                 dir('frontend') {  
                     script {
                         withDockerRegistry(credentialsId: "${DOCKERHUB_CRED}", url: '') {
@@ -99,7 +99,7 @@ pipeline {
             }
         }
 
-        // ----------------------------------------
+        
         stage('Staging Deployment') {
             steps {
                 sh 'docker compose down || true'
