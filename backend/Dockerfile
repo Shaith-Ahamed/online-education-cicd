@@ -33,14 +33,16 @@
 
 
 
-
 FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /app
 
 RUN apk update && apk add --no-cache bash netcat-openbsd
 
-# Copy initial files and make mvnw executable for dependency download
+# Copy the local Maven repository with all dependencies
+COPY .m2/repository /root/.m2/repository
+
+# Copy initial files
 COPY mvnw pom.xml ./
 COPY .mvn .mvn
 RUN chmod +x mvnw
@@ -48,17 +50,15 @@ RUN chmod +x mvnw
 COPY wait-for-it.sh ./
 RUN chmod +x wait-for-it.sh
 
-# Download dependencies offline
-RUN ./mvnw dependency:go-offline -B
-
-# Copy all backend code (this may overwrite mvnw)
+# Copy all backend code
 COPY . .
 
-# Fix permissions again for mvnw
+# Fix permissions
 RUN chmod +x mvnw
 
-# Build the app
-RUN ./mvnw clean package -DskipTests
+# Build the app offline (using cached dependencies)
+RUN ./mvnw clean package -DskipTests -o || \
+    ./mvnw clean package -DskipTests
 
 EXPOSE 8080
 
