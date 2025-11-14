@@ -21,7 +21,7 @@ pipeline {
                     credentialsId: "${GITHUB_CRED}"
             }
         }
-        
+
         stage('Backend: Clean & Compile') {
             steps {
                 dir('backend') {  
@@ -29,7 +29,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Backend: SonarQube Analysis') {
             steps {
                 dir('backend') { 
@@ -44,7 +44,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Backend: Package') {
             steps {
                 dir('backend') {  
@@ -52,7 +52,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Backend: Docker Build & Push') {
             steps {
                 dir('backend') {  
@@ -71,7 +71,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Frontend: Docker Build & Push') {
             steps {
                 dir('frontend') {  
@@ -90,16 +90,33 @@ pipeline {
                 }
             }
         }
-        
+
+        stage('Frontend: SonarQube Analysis') {
+            steps {
+                dir('frontend') {
+                    withCredentials([string(credentialsId: "${SONAR_CRED}", variable: 'SONAR_TOKEN')]) {
+                        sh '''
+                            # Run SonarQube scanner for JS/TS frontend
+                            sonar-scanner \
+                                -Dsonar.projectKey=frontend \
+                                -Dsonar.sources=. \
+                                -Dsonar.host.url=http://localhost:9000 \
+                                -Dsonar.login=$SONAR_TOKEN
+                        '''
+                    }
+                }
+            }
+        }
+
         stage('Staging Deployment') {
             steps {
-             
                 sh 'docker compose down || true'
                 sh 'docker compose pull'
                 sh 'docker compose up -d'
             }
         }
     }
+
     post {
         always {
             echo 'Cleaning up workspace...'
@@ -115,5 +132,3 @@ pipeline {
         }
     }
 }
-
-
