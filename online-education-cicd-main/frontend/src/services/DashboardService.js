@@ -3,14 +3,14 @@ import http from "./http";
 
 export const DashboardService = {
 
-  getMyCourses: async () => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user || !user.userId) {
-      throw new Error("User not logged in");
-    }
-    const response = await http.get(`/enrollments/user/${user.userId}`);
-    return response.data;
-  },
+  // getMyCourses: async () => {
+  //   const user = JSON.parse(localStorage.getItem("user"));
+  //   if (!user || !user.userId) {
+  //     throw new Error("User not logged in");
+  //   }
+  //   const response = await http.get(`/enrollments/user/${user.userId}`);
+  //   return response.data;
+  // },
 
 
 
@@ -37,3 +37,15 @@ export const DashboardService = {
   
   
 };
+
+
+
+
+    getMyCourses: async () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || !user.userId) {
+      throw new Error("User not logged in");
+    }
+    const response = await http.get(`/enrollments/user/${user.userId}`);
+    return response.data;
+  },
