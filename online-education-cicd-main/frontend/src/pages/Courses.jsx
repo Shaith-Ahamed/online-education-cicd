@@ -169,3 +169,36 @@ const Courses = () => {
 };
 
 export default Courses;
+
+
+        // <div className="text-center py-20">
+        //       <p className="text-gray-500 text-xl">No courses found matching your criteria.</p>
+        //       <button
+        //         onClick={() => { setSearchTerm(''); setSelectedCategory('all'); }}
+        //         className="mt-4 text-indigo-600 hover:text-indigo-800"
+        //       >
+        //         Clear filters
+        //       </button>
+        //     </div>
+
+
+
+        // <div className="text-center py-20">
+        //       <p className="text-gray-500 text-xl">No courses found matching your criteria.</p>
+        //       <button
+        //         onClick={() => { setSearchTerm(''); setSelectedCategory('all'); }}
+        //         className="mt-4 text-indigo-600 hover:text-indigo-800"
+        //       >
+        //         Clear filters
+        //       </button>
+        //     </div>
+
+        //             <div className="text-center py-20">
+        //       <p className="text-gray-500 text-xl">No courses found matching your criteria.</p>
+        //       <button
+        //         onClick={() => { setSearchTerm(''); setSelectedCategory('all'); }}
+        //         className="mt-4 text-indigo-600 hover:text-indigo-800"
+        //       >
+        //         Clear filters
+        //       </button>
+        //     </div>
