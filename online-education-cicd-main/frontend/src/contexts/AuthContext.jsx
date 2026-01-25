@@ -1,6 +1,6 @@
 
 import { createContext, useContext, useState, useEffect } from 'react';
-import http from '../services/http'; // axios instance
+import http from '../services/http'; 
 
 const AuthContext = createContext();
 
@@ -24,16 +24,16 @@ export const AuthProvider = ({ children }) => {
     if (user) {
       try {
         const parsedUser = JSON.parse(user);
-        // Validate that user has required fields
+        
         if (parsedUser && parsedUser.userId && parsedUser.email) {
           setCurrentUser(parsedUser);
         } else {
-          // Invalid user data, clear it
+          
           localStorage.removeItem('user');
           setCurrentUser(null);
         }
       } catch (error) {
-        // Invalid JSON, clear it
+        
         localStorage.removeItem('user');
         setCurrentUser(null);
       }
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
   };
 
 
-  // Regis
+  
   const register = async (name, email, password) => {
     try {
       setError('');
@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }) => {
         password,
       });
 
-      return data; //string msg
+      return data; 
     } catch (err) {
       const msg = err.response?.data?.message || err.message;
       setError('Failed to register: ' + msg);

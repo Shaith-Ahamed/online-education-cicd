@@ -2,7 +2,7 @@
 import http from "./http";
 
 export const DashboardService = {
-  // Get enrolled courses for the current user
+
   getMyCourses: async () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user || !user.userId) {
@@ -18,7 +18,7 @@ export const DashboardService = {
 
   changePassword: async (userId, currentPassword, newPassword) => {
     const { data } = await http.put(`/users/updateUser/${userId}/password`, {
-      currentPassword, //the body parts expected by the put mapping in the srpingboot
+      currentPassword, 
       newPassword,
     });
     return data;

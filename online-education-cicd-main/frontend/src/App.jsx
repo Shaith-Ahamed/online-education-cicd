@@ -22,7 +22,7 @@ import CourseDetailsPage from './pages/CourseDetailsPage';
 function App() {
   return (
     <Router>
-      <AuthProvider>  {/*Many authentication-related components (like protected routes dasboard) need access to both routing and authentication context */}
+      <AuthProvider>  
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
@@ -36,7 +36,6 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
       
             
-            {/* 404  Not Found error*/}
             <Route path="*" element={
               <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
