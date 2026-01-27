@@ -19,8 +19,10 @@ http.interceptors.request.use((config) => {
 http.interceptors.response.use(
     (res) => res,  
     (err) => {  
-      if (err.response?.status === 401) {
+      // Don't auto-redirect on 401 if it's a password change request
+      if (err.response?.status === 401 && !err.config.url.includes('/password')) {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         window.location.href = "/login";
       }
       return Promise.reject(err);

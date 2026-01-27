@@ -3,12 +3,12 @@ package com.learn.demo.enrollment;
 public class EnrollmentDTO {
 
     private final int enrollmentId;
-    private final int userId;       // just the ID, not the full User object
-    private final int courseId;     // just the ID, not the full Course object
-    private final String courseName; // optional
-    private final String status;    // EnrollmentStatus as string
+    private final int userId;       
+    private final int courseId;   
+    private final String courseName; 
+    private final String status;    
 
-    // Constructor that converts Enrollment -> DTO
+ 
     public EnrollmentDTO(Enrollment enrollment) {
         this.enrollmentId = enrollment.getEnrollmentId();
         this.userId = enrollment.getUser().getUserId();

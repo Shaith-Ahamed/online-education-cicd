@@ -37,18 +37,7 @@ public class UserRestController {
     @PostMapping("/addUser")
     public ResponseEntity<String> addUser(@RequestBody User newUser) {
 
-//        if (newUser.getFirstName() == null || newUser.getFirstName().trim().isEmpty()) {
-//            return ResponseEntity.badRequest().body("First name is required");
-//        }
-//        if (newUser.getLastName() == null || newUser.getLastName().trim().isEmpty()) {
-//            return ResponseEntity.badRequest().body("Last name is required");
-//        }
-//        if (newUser.getPassword() == null || newUser.getPassword().trim().isEmpty()) {
-//            return ResponseEntity.badRequest().body("Password is required");
-//        }
-//        if (newUser.getEmail() == null || newUser.getEmail().trim().isEmpty()) {
-//            return ResponseEntity.badRequest().body("Email is required");
-//        }
+
 
         userRepository.save(newUser);
         return new ResponseEntity<>("User " + newUser.getFirstName() + " " + newUser.getLastName() + " " + newUser.getPassword() + "is added", HttpStatusCode.valueOf(201));
@@ -62,7 +51,7 @@ public class UserRestController {
 
 
     @PutMapping("/updateUser/{userId}/password")
-    public ResponseEntity<String> changePassword(
+    public ResponseEntity<?> changePassword(
             @PathVariable("userId") int userId,
             @RequestBody Map<String, String> body) {
 
@@ -70,28 +59,28 @@ public class UserRestController {
         String newPassword     = body.getOrDefault("newPassword", "");
 
         if (userId <= 0) {
-            return ResponseEntity.badRequest().body("Invalid user ID");
+            return ResponseEntity.badRequest().body(Map.of("message", "Invalid user ID"));
         }
 
         return userRepository.findById(userId)
                 .map(user -> {
                     if (currentPassword.isBlank() || newPassword.isBlank()) {
-                        return ResponseEntity.badRequest().body("currentPassword and newPassword are required");
+                        return ResponseEntity.badRequest().body(Map.of("message", "currentPassword and newPassword are required"));
                     }
 
 
                     if (!user.getPassword().equals(currentPassword)) {
-                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Current password is incorrect");
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Current password is incorrect"));
                     }
 
 
                     user.setPassword(newPassword);
                     userRepository.save(user);
 
-                    return ResponseEntity.ok("Password updated successfully");
+                    return ResponseEntity.ok(Map.of("message", "Password updated successfully"));
                 })
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("User " + userId + " not found"));
+                        .body(Map.of("message", "User " + userId + " not found")));
     }
 
 

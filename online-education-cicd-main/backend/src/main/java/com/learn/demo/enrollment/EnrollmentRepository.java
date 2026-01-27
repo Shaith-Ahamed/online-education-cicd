@@ -14,9 +14,7 @@ import java.util.List;
 
 
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer> {
-//    @Query("SELECT COUNT(e) > 0 FROM Enrollment e WHERE e.user.userId = :userId AND e.course.courseId = :courseId")
-//    boolean existsByUserAndCourse(@Param("userId") int userId, @Param("courseId") int courseId);
-//    List<Enrollment> findByUserId(int userId);
+
 
 
     // Check if a user is already enrolled in a course

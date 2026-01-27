@@ -133,7 +133,7 @@ const handleDelete = async () => {
       setConfirmPwd("");
 
     } catch (err) {
-      setPwdMsg( (err.response?.data?.message || err.message || "Failed to change password"));
+      setPwdMsg(err.response?.data?.message || err.message || "Failed to change password");
     } finally {
       setChangingPwd(false);
     }

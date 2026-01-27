@@ -31,9 +31,6 @@ public class EnrollmentService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
 
 
-//        if (enrollmentRepo. existsByUserAndCourse(user_Id, course_Id)) {
-//            throw new ResponseStatusException(HttpStatus.CONFLICT, "Already enrolled");
-//        }
         if (enrollmentRepo. existsByUserAndCourse(user,course)) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Already enrolled");
         }
